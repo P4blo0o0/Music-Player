@@ -331,21 +331,6 @@
             }
         }
         
-        /* Loading indicator */
-        .loading {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(255,255,255,.3);
-            border-radius: 50%;
-            border-top-color: #e94560;
-            animation: spin 1s ease-in-out infinite;
-        }
-        
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-        
         /* Prevent text selection on interactive elements */
         button, .song, .progress-area {
             -webkit-user-select: none;
@@ -393,30 +378,96 @@
 
     <script>
         // Music data with titles, artists, file paths, and cover images
-        const songs = [
+          const songs = [
             {
-                title: "Summer Walk",
-                artist: "Olexy",
-                src: "https://cdn.pixabay.com/download/audio/2022/01/20/audio_5b9b2c6f14.mp3?filename=summer-walk-152722.mp3",
-                cover: "https://images.pexels.com/photos/167491/pexels-photo-167491.jpeg?auto=compress&cs=tinysrgb&w=400"
+                title: "Stand by Me",
+                artist: "Oasis",
+                src: "songs/stand_by_me.mp3",
+                cover: "pictures/stand_by_me.jpeg"
             },
             {
-                title: "Tomorrow",
-                artist: "Bensound",
-                src: "https://cdn.pixabay.com/download/audio/2021/10/25/audio_5b97cf6f13.mp3?filename=tomorrow-132121.mp3",
-                cover: "https://images.pexels.com/photos/2531237/pexels-photo-2531237.jpeg?auto=compress&cs=tinysrgb&w=400"
+                title: "Mirrors",
+                artist: "Justin Timberlake",
+                src: "songs/mirrors.mp3",
+                cover: "pictures/mirrors.jpeg"
             },
             {
-                title: "Epic Cinematic",
-                artist: "Sound Gallery",
-                src: "https://cdn.pixabay.com/download/audio/2022/03/15/audio_5c5c32f9c3.mp3?filename=epic-cinematic-trailer-11157.mp3",
-                cover: "https://images.pexels.com/photos/167092/pexels-photo-167092.jpeg?auto=compress&cs=tinysrgb&w=400"
+                title: "Mine",
+                artist: "Bazzi",
+                src: "songs/mine.mp3",
+                cover: "pictures/mine.jpeg"
             },
             {
-                title: "Uplifting Pop",
-                artist: "AlexiAction",
-                src: "https://cdn.pixabay.com/download/audio/2023/02/27/audio_370f40ff9a.mp3?filename=uplifting-pop-136441.mp3",
-                cover: "https://images.pexels.com/photos/164829/pexels-photo-164829.jpeg?auto=compress&cs=tinysrgb&w=400"
+                title: "Love",
+                artist: "Kendrick Lamar",
+                src: "songs/love.mp3",
+                cover: "pictures/love.jpeg"
+            },
+            {
+                title: "My Sacrifice",
+                artist: "Creed",
+                src: "songs/my_sacrifice.mp3",
+                cover: "pictures/my_sacrifice.jpeg"
+            },
+            {
+                title: "September Ends",
+                artist: "Green Day",
+                src: "songs/september_ends.mp3",
+                cover: "pictures/september_ends.jpeg"
+            },
+            {
+                title: "Take da Charge",
+                artist: "Project Pat",
+                src: "songs/take_da_charge.mp3",
+                cover: "pictures/take_da_charge.jpeg"
+            },
+            {
+                title: "Bad Habit",
+                artist: "Steve Lacy",
+                src: "songs/bad_habit.mp3",
+                cover: "pictures/bad_habit.jpeg"
+            },
+            {
+                title: "Dangerous",
+                artist: "Kardinal Offishall feat. Akon",
+                src: "songs/dangerous.mp3",
+                cover: "pictures/dangerous.jpeg"
+            },
+            {
+                title: "Gods Plan",
+                artist: "Drake",
+                src: "songs/gods_plan.mp3",
+                cover: "pictures/gods_plan.jpeg"
+            },
+            {
+                title: "I Walk This Eath All by Myself",
+                artist: "EKKSTACY",
+                src: "songs/i_walk_this_earth_al_by_my_self.mp3",
+                cover: "pictures/i_walk_this_earth_al_by_my_self.jpeg"
+            },
+            {
+                title: "Girl With The Tattoo",
+                artist: "Miguel",
+                src: "songs/the_girl_with_the_tattoo.mp3",
+                cover: "pictures/the_girl_with_the_tattoo.jpeg"
+            },
+            {
+                title: "Washing Machine Heart",
+                artist: "Mitski",
+                src: "songs/washing_machine_heart.mp3",
+                cover: "pictures/washing_machine_heart.jpeg"
+            },
+            {
+                title: "Locked Away",
+                artist: "R. City feat. Adam Levine",
+                src: "songs/locked_away.mp3",
+                cover: "pictures/locked_away.jpeg"
+            },
+            {
+                title: "The Reason",
+                artist: "Hoobastank",
+                src: "songs/the _reason.mp3",
+                cover: "pictures/the_reason.jpeg"
             }
         ];
 
@@ -442,7 +493,6 @@
         // Current song index
         let songIndex = 0;
         let isPlaying = false;
-        let isSongLoading = false;
         
         // Initialize the player
         function initPlayer() {
@@ -492,35 +542,13 @@
                 if (songIndex < songDurations.length) {
                     songDurations[songIndex].textContent = formatTime(audio.duration);
                 }
-                
-                isSongLoading = false;
-                updatePlayButton();
-            });
-            
-            // Handle audio loading
-            audio.addEventListener('loadstart', () => {
-                isSongLoading = true;
-                updatePlayButton();
             });
             
             // Handle audio loading errors
             audio.addEventListener('error', (e) => {
                 console.error("Audio loading error:", e);
-                isSongLoading = false;
-                updatePlayButton();
                 alert("Failed to load audio. Please check your connection.");
             });
-        }
-        
-        // Update play button based on loading state
-        function updatePlayButton() {
-            if (isSongLoading) {
-                playBtn.innerHTML = '<span class="loading"></span>';
-            } else if (isPlaying) {
-                playBtn.innerHTML = '<i class="fas fa-pause"></i>';
-            } else {
-                playBtn.innerHTML = '<i class="fas fa-play"></i>';
-            }
         }
         
         // Load song
@@ -552,18 +580,14 @@
         function playSong() {
             isPlaying = true;
             musicPlayer.classList.add('playing');
-            updatePlayButton();
-            
+            playBtn.querySelector('i').classList.remove('fa-play');
+            playBtn.querySelector('i').classList.add('fa-pause');
             audio.play().catch(error => {
                 console.log("Playback failed:", error);
                 isPlaying = false;
                 musicPlayer.classList.remove('playing');
-                updatePlayButton();
-                
-                // Show user instruction for mobile browsers
-                if (error.name === 'NotAllowedError') {
-                    alert("Please tap the play button to start playback. Mobile browsers require user interaction.");
-                }
+                playBtn.querySelector('i').classList.remove('fa-pause');
+                playBtn.querySelector('i').classList.add('fa-play');
             });
         }
         
@@ -571,7 +595,8 @@
         function pauseSong() {
             isPlaying = false;
             musicPlayer.classList.remove('playing');
-            updatePlayButton();
+            playBtn.querySelector('i').classList.remove('fa-pause');
+            playBtn.querySelector('i').classList.add('fa-play');
             audio.pause();
         }
         
@@ -664,6 +689,15 @@
         
         // Initialize the player when the window loads
         window.addEventListener('load', initPlayer);
+        
+        // Prevent default touch behavior for better UX
+        document.addEventListener('touchstart', function(e) {
+            if (e.target.tagName === 'INPUT' && e.target.getAttribute('type') === 'range') {
+                // Allow default for range inputs
+                return;
+            }
+            e.preventDefault();
+        }, { passive: false });
     </script>
 </body>
 </html>
